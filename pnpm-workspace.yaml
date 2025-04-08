@@ -1,0 +1,7 @@
+onlyBuiltDependencies:
+  - dprint
+  - es5-ext
+  - esbuild
+  - fsevents
+  - keytar
+  - microtime
