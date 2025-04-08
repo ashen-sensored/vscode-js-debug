@@ -117,6 +117,9 @@ export abstract class SourcePathResolverBase<T extends ISourcePathResolverOption
       // be quite rare that ignored files (i.e. node_modules) reference
       // source modules and vise versa.
       || (isDataUri(sourceMapUrl) && compiledPath)
+      // if source map comes in as pure relative path (node internal case), resolve using localRoot
+      || (!sourceMapUrl.includes('://') && this.options.localRoot
+        && properResolve(this.options.localRoot, sourceMapUrl))
       // Fall back to the raw URL if those fail.
       || sourceMapUrl;
 

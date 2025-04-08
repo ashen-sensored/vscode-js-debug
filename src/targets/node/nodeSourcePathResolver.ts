@@ -22,6 +22,7 @@ import { ISourcePathResolverOptions, SourcePathResolverBase } from '../sourcePat
 
 interface IOptions extends ISourcePathResolverOptions {
   basePath?: string;
+  mapNodeInternals?: boolean;
 }
 
 const localNodeInternalsPrefix = 'node:';
@@ -39,6 +40,7 @@ export class NodeSourcePathResolver extends SourcePathResolverBase<IOptions> {
       sourceMapOverrides: c.sourceMapPathOverrides,
       remoteRoot: c.remoteRoot,
       localRoot: c.localRoot,
+      mapNodeInternals: c.mapNodeInternals ?? false,
     };
   }
 
@@ -108,7 +110,9 @@ export class NodeSourcePathResolver extends SourcePathResolverBase<IOptions> {
     // require('cluster') will import a file simply named "cluster". For these
     // paths, prefix them as internal.
     else if (!path.isAbsolute(url)) {
-      return `${nodeInternalsToken}/${url}`;
+      if (!this.options.mapNodeInternals) {
+        return `${nodeInternalsToken}/${url}`;
+      }
     } // Otherwise, use default overrides.
     else {
       url = this.sourceMapOverrides.apply(url);

@@ -333,6 +333,11 @@ export interface INodeBaseConfiguration extends IBaseConfiguration, IConfigurati
    * with `--inpect-brk`.
    */
   continueOnAttach?: boolean;
+
+  /**
+   * Whether to map Node.js internals to the local workspace.
+   */
+  mapNodeInternals?: boolean;
 }
 
 export interface IConfigurationWithEnv {

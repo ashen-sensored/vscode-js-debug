@@ -56,10 +56,10 @@
       "request": "launch",
       "name": "Debug Server (DAP)",
       "trace": true,
-      "program": "${workspaceFolder}/dist/src/dapDebugServer.js",
-      "skipFiles": [
-        "<node_internals>/**/*.js"
-      ]
+      "program": "${workspaceFolder}/dist/src/dapDebugServer.js"
+      // "skipFiles": [
+      //   "<node_internals>/**/*.js"
+      // ]
       // "preLaunchTask": "npm: watch"
     },
     {
@@ -86,7 +86,8 @@
         "<node_internals>/**"
       ],
       "args": [
-        "--enable-proposed-api=ms-vscode.js-debug",
+        // "--enable-proposed-api=ms-vscode.js-debug",
+        "--enable-proposed-api=ms-vscode.js-debug-nightly",
         "--extensionDevelopmentPath=${workspaceFolder}/dist"
       ],
       "env": {

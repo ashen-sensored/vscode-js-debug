@@ -4,6 +4,7 @@
 
 import * as l10n from '@vscode/l10n';
 import { randomBytes } from 'crypto';
+import path from 'path';
 import Cdp from '../cdp/api';
 import { DebugType } from '../common/contributionUtils';
 import { EventEmitter } from '../common/events';
@@ -53,6 +54,20 @@ import {
   serializeForClipboardTmpl,
 } from './templates/serializeForClipboard';
 import { IVariableStoreLocationProvider, VariableStore } from './variableStore';
+
+function completeLocalPath(base: string, relative: string | undefined): string | undefined {
+  const isLocalFilePath = !base.includes('://')
+    && (relative
+      && !(relative as string).includes('://'));
+  if (isLocalFilePath) {
+    // const lastSlash = event.url.lastIndexOf('/');
+    // resolvedSourceMapUrl = lastSlash >= 0
+    //   ? event.url.substring(0, lastSlash + 1) + event.sourceMapURL
+    //   : event.sourceMapURL;
+    const scriptDir = path.dirname(base);
+    return path.join(scriptDir, relative);
+  }
+}
 
 export class ExecutionContext {
   public readonly sourceMapLoads = new Map<string, Promise<IUiLocation[]>>();
@@ -1704,7 +1719,10 @@ export class Thread implements IVariableStoreLocationProvider {
         // but in practice that usually means new scripts with new source maps anyway.
         resolvedSourceMapUrl = urlUtils.isDataUri(event.sourceMapURL)
           ? event.sourceMapURL
-          : (event.url && urlUtils.completeUrl(event.url, event.sourceMapURL)) || event.url;
+          : (event.url
+            && (urlUtils.completeUrl(event.url, event.sourceMapURL)
+              || completeLocalPath(event.url, event.sourceMapURL)))
+            || event.url;
         if (!resolvedSourceMapUrl) {
           this._dap.with(dap =>
             errors.reportToConsole(dap, `Could not load source map from ${event.sourceMapURL}`)

@@ -165,6 +165,7 @@
   "node.launch.useWSL.deprecation": "'useWSL' is deprecated and support for it will be dropped. Use the 'Remote - WSL' extension instead.",
   "node.launch.useWSL.description": "Use Windows Subsystem for Linux.",
   "node.localRoot.description": "Path to the local directory containing the program.",
+  "node.mapNodeInternals.description": "Try mapping internal Node.js modules to local files.",
   "node.pauseForSourceMap.description": "Whether to wait for source maps to load for each incoming script. This has a performance overhead, and might be safely disabled when running off of disk, so long as `rootPath` is not disabled.",
   "node.port.description": "Debug port to attach to. Default is 9229.",
   "node.processattach.config.name": "Attach to Process",

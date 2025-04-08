@@ -372,6 +372,11 @@ const nodeBaseConfigurationAttributes: ConfigurationAttributes<INodeBaseConfigur
     description: refString('node.versionHint.description'),
     default: 12,
   },
+  mapNodeInternals: {
+    type: 'boolean',
+    description: refString('node.mapNodeInternals.description'),
+    default: false,
+  },
 };
 
 const intOrEvaluated: JSONSchema6Definition[] = [
